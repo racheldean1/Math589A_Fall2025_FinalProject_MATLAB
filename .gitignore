@@ -1,0 +1,12 @@
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# MATLAB
+*.asv
+*.m~
+
+# Data files that should not go to Git by default
+
