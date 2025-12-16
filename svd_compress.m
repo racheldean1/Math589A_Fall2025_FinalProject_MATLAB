@@ -17,5 +17,24 @@ function [image_k, rel_error, compression_ratio] = svd_compress(image, k)
 %   You should use MATLAB's SVD to compute the full SVD of the image and
 %   then truncate it to rank k.
 
-error('svd_compress not implemented yet.');
+        [m, n] = size(image);
+
+    % Full SV
+        [U, S, V] = svd(image);
+
+    % Truncation
+        Uk = U(:, 1:k);
+        Sk = S(1:k, 1:k);
+        Vk = V(:, 1:k);
+
+        image_k = Uk * Sk * Vk';
+
+    % Frobenius error
+        denom = norm(image, 'fro');
+        if denom == 0
+            rel_error = norm(image - image_k, 'fro');
+        else
+            rel_error = norm(image - image_k, 'fro') / denom;
+        end
+        compression_ratio = (m*k + k + n*k) / (m*n);
 end
