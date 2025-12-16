@@ -16,5 +16,7 @@ function y_pred = lda_predict(X, w, threshold)
 %     if z_i >= threshold => predict 1
 %     else                => predict 0
 
-error('lda_predict not implemented yet.');
+    z = X * w;                 
+    y_pred = double(z >= threshold);    % predicting 0 or 1
+    y_pred = y_pred(:);
 end
