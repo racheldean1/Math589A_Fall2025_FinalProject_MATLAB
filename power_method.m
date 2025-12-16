@@ -21,5 +21,50 @@ function [lam, v, iters] = power_method(A, x0, maxit, tol)
 %
 %   Do not change the function signature.
 
-error('power_method not implemented yet.');
+
+    % Ensure column vector
+    x = x0(:);
+
+    % Normalize initial vector
+    nx = norm(x, 2);
+    if nx == 0
+        error('x0 must be nonzero.');
+    end
+    x = x / nx;
+
+    lam_prev = NaN;
+    lam = x' * A * x;
+    iters = 0;
+
+    for k = 1:maxit
+        y = A * x;
+        ny = norm(y, 2);
+        if ny == 0
+            lam = 0;
+            v = x;
+            iters = k;
+            return;
+        end
+        x = y / ny;
+
+        lam = x' * A * x;
+        iters = k;
+
+        if k > 1
+            denom = abs(lam);
+            if denom == 0
+                if abs(lam - lam_prev) <= tol
+                    break;
+                end
+            else
+                if abs(lam - lam_prev) / denom <= tol
+                    break;
+                end
+            end
+        end
+
+        lam_prev = lam;
+    end
+
+    v = x; 
 end
